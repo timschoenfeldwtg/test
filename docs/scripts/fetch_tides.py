@@ -2,7 +2,7 @@
 from pathlib import Path
 import os, json, urllib.request, urllib.parse, datetime
 
-API_KEY = os.environ["WORLDTIDES_KEY"]  # als GitHub Secret
+API_KEY = os.environ["12af73ad-6580-44f1-96e3-8c0adfe5597f"]  # als GitHub Secret
 LAT = os.environ.get("TIDES_LAT", "53.64")   # Hooksiel Beispiel
 LON = os.environ.get("TIDES_LON", "8.01")
 DAYS = int(os.environ.get("TIDES_DAYS", "7"))
