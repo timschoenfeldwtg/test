@@ -2,7 +2,7 @@
 from pathlib import Path
 import os, json, urllib.request, urllib.parse, datetime
 
-KEY = os.environ["f8751e289d9ec82e10da922edec795df"]          # GitHub Secret
+KEY = os.environ["WORLDTIDES_KEY"]         
 LAT = os.environ.get("WX_LAT", "53.64")          # z.B. Hooksiel
 LON = os.environ.get("WX_LON", "8.01")
 URL = "https://api.openweathermap.org/data/3.0/onecall?" + urllib.parse.urlencode({
