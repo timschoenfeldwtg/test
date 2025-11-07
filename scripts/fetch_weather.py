@@ -5,7 +5,7 @@ KEY = os.environ["OPENWEATHER_API_KEY"]
 LAT = os.environ.get("WX_LAT", "53.64")
 LON = os.environ.get("WX_LON", "8.01")
 
-url = "https://api.openweathermap.org/data/3.0/onecall?" + urllib.parse.urlencode({
+url = "https://api.openweathermap.org/data/2.5/onecall?" + urllib.parse.urlencode({
     "lat": LAT, "lon": LON, "units": "metric", "lang": "de", "appid": KEY
 })
 
