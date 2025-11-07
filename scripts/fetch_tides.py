@@ -10,7 +10,7 @@ DAYS = int(os.environ.get("TIDES_DAYS", "7"))
 params = { "extremes": "", "lat": LAT, "lon": LON, "days": DAYS, "key": API_KEY }
 url = "https://www.worldtides.info/api/v3?" + urllib.parse.urlencode(params)
 
-out_dir = Path("data"); out_dir.mkdir(parents=True, exist_ok=True)
+out_dir = Path("docs"); out_dir.mkdir(parents=True, exist_ok=True)
 dst = out_dir / "tides.json"
 
 with urllib.request.urlopen(url) as r:
