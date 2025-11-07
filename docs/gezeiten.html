@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gezeiten – Widget</title>
+  <meta name="description" content="Gezeitenkasten mit täglichen Hoch- und Niedrigwasserzeiten." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:'#002341',
+            accent: '#007996',
+            ink:    '#111111',
+            border: '#e6e6e6',
+            bg:     '#ffffff',
+            hilite: '#ffe500'
+          },
+          fontFamily: { sans: ['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif'] },
+          boxShadow: { soft: '0 10px 30px rgba(0,0,0,.06)' },
+          borderRadius: { '2xl': '1rem' }
+        }
+      }
+    }
+  </script>
+  <style>:root{color-scheme:light}</style>
+</head>
+<body class="bg-bg text-ink font-sans">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <a href="index.html" class="inline-flex items-center gap-3 text-primary font-semibold" aria-label="Startseite">
+      <span class="hidden sm:inline">Wangerland Widgets</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-5 text-sm">
+      <a class="hover:text-primary" href="weather.html">Wetter</a>
+      <a class="hover:text-primary" href="gezeiten.html" aria-current="page">Gezeiten</a>
+    </nav>
+  </div>
+</header>
+
+<main class="mx-auto max-w-7xl px-4 sm:px-6 py-8">
+  <h1 class="text-2xl font-semibold text-primary">Gezeiten – Hooksiel (Beispiel)</h1>
+  <p class="mt-2 text-sm text-ink/70">Quelle: API-Abruf (WorldTides). Tägliche Aktualisierung per GitHub Action. <span class="opacity-70">(Nicht für nautische Zwecke.)</span></p>
+
+  <section class="mt-6 grid lg:grid-cols-3 gap-6 items-start">
+    <div class="lg:col-span-2 bg-white border border-border rounded-2xl p-6 shadow-soft">
+      <header class="flex items-center justify-between gap-3">
+        <h2 class="text-lg font-semibold text-primary">Gezeiten – nächste 7 Tage</h2>
+        <span id="updated" class="text-xs text-ink/60">—</span>
+      </header>
+      <div id="tide-content" class="mt-4">
+        <div class="text-sm text-ink/60">Lade Gezeiten …</div>
+      </div>
+    </div>
+
+    <aside class="bg-white border border-border rounded-2xl p-6 shadow-soft">
+      <h3 class="text-base font-semibold text-primary">Heute</h3>
+      <div id="today-cards" class="mt-4 grid grid-cols-2 gap-3 text-sm"></div>
+      <p class="mt-4 text-xs text-ink/60">Zeiten in Europa/Berlin.</p>
+    </aside>
+  </section>
+</main>
+
+<footer class="border-t border-border mt-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 py-8 grid gap-6 md:grid-cols-3 items-start">
+    <div class="text-sm text-ink/80">
+      <p class="font-semibold text-primary">Hinweis</p>
+      <p class="mt-1">Diese Seite lädt <code>docs/data/tides.json</code> aus diesem Repo.</p>
+    </div>
+    <nav class="text-sm text-ink/80">
+      <p class="font-semibold text-primary">Rechtliches</p>
+      <ul class="mt-2 space-y-1">
+        <li><a class="hover:text-primary underline underline-offset-2" href="impressum.html">Impressum</a></li>
+        <li><a class="hover:text-primary underline underline-offset-2" href="datenschutz.html">Datenschutz</a></li>
+      </ul>
+    </nav>
+    <div class="text-sm text-ink/70 md:text-right">
+      <p>© <span id="year"></span> Wangerland Touristik</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+function fmtLocal(ts){ return new Date(ts).toLocaleString('de-DE',{ timeZone:'Europe/Berlin', hour:'2-digit', minute:'2-digit'}); }
+function fmtDate(ts){ return new Date(ts).toLocaleDateString('de-DE',{ timeZone:'Europe/Berlin', weekday:'short', day:'2-digit', month:'2-digit' }); }
+function groupByDate(extremes){
+  const tz = 'Europe/Berlin';
+  const m = new Map();
+  for(const e of (extremes||[])){
+    const d = new Date(e.dt * 1000);
+    const key = d.toLocaleDateString('de-DE',{ timeZone: tz });
+    if(!m.has(key)) m.set(key, []);
+    m.get(key).push(e);
+  }
+  return m;
+}
+
+async function renderTides(){
+  try{
+    const res = await fetch('./data/tides.json', { cache: 'no-cache' });
+    if(!res.ok) throw new Error('tides.json nicht gefunden');
+    const d = await res.json();
+
+    const map = groupByDate(d.extremes);
+    const days = [...map.entries()].slice(0,7);
+
+    document.getElementById('updated').textContent = 'Aktualisiert: ' +
+      new Date(d.fetched_at).toLocaleString('de-DE',{ timeZone:'Europe/Berlin' });
+
+    let html = '';
+    for(const [dateKey, items] of days){
+      const rows = items
+        .sort((a,b)=>a.dt-b.dt)
+        .map(e => {
+          const badge = e.type === 'High'
+            ? '<span class="inline-flex items-center rounded-full bg-accent/10 text-accent px-2 py-0.5 text-xs font-medium">Hoch</span>'
+            : '<span class="inline-flex items-center rounded-full bg-primary/10 text-primary px-2 py-0.5 text-xs font-medium">Niedrig</span>';
+          const h = (e.height!=null) ? `${e.height.toFixed(2)} m` : '–';
+          return `<tr class="border-b border-border/70">
+            <td class="py-2 pr-3 whitespace-nowrap">${fmtDate(e.dt*1000)}</td>
+            <td class="py-2 pr-3">${fmtLocal(e.dt*1000)}</td>
+            <td class="py-2 pr-3">${badge}</td>
+            <td class="py-2">${h}</td>
+          </tr>`;
+        }).join('');
+      html += `
+        <h3 class="mt-6 first:mt-0 text-sm font-semibold text-ink/80">${dateKey}</h3>
+        <div class="overflow-auto -mx-2">
+          <table class="min-w-[480px] w-full text-sm mx-2">
+            <thead>
+              <tr class="text-ink/60">
+                <th class="text-left font-medium pb-1 pr-3">Datum</th>
+                <th class="text-left font-medium pb-1 pr-3">Zeit</th>
+                <th class="text-left font-medium pb-1 pr-3">Tide</th>
+                <th class="text-left font-medium pb-1">Höhe</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }
+    document.getElementById('tide-content').innerHTML = html || '<p class="text-sm text-ink/60">Keine Daten.</p>';
+
+    const todayKey = new Date().toLocaleDateString('de-DE',{ timeZone:'Europe/Berlin' });
+    const today = map.get(todayKey) || [];
+    const cards = today.sort((a,b)=>a.dt-b.dt).map(e => `
+      <div class="rounded-xl border border-border p-3">
+        <div class="text-xs text-ink/60">${e.type==='High'?'Hochwasser':'Niedrigwasser'}</div>
+        <div class="text-lg font-semibold">${fmtLocal(e.dt*1000)}</div>
+        <div class="text-xs text-ink/60 mt-1">${e.height!=null?`${e.height.toFixed(2)} m`:''}</div>
+      </div>`).join('');
+    document.getElementById('today-cards').innerHTML = cards || '<div class="text-sm text-ink/60">—</div>';
+  }catch(err){
+    console.error(err);
+    document.getElementById('tide-content').innerHTML = '<p class="text-sm text-red-700">Gezeiten-Daten nicht verfügbar.</p>';
+  }
+}
+renderTides();
+</script>
+</body>
+</html>

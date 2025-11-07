@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wetter – Widget</title>
+<meta name="description" content="Wetterkasten mit aktuell, 24h stündlich und 7 Tage." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: {
+  colors:{ primary:'#002341', accent:'#007996', ink:'#111', border:'#e6e6e6', bg:'#fff' },
+  boxShadow:{ soft:'0 10px 30px rgba(0,0,0,.06)' }, borderRadius:{ '2xl':'1rem' },
+  fontFamily:{ sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif'] }
+}}}
+</script>
+<style>:root{color-scheme:light}</style>
+</head>
+<body class="bg-bg text-ink font-sans">
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-border">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <a href="index.html" class="inline-flex items-center gap-3 text-primary font-semibold" aria-label="Startseite">
+      <span class="hidden sm:inline">Wangerland Widgets</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-5 text-sm">
+      <a class="hover:text-primary" href="weather.html" aria-current="page">Wetter</a>
+      <a class="hover:text-primary" href="gezeiten.html">Gezeiten</a>
+    </nav>
+  </div>
+</header>
+
+<main class="mx-auto max-w-7xl px-4 sm:px-6 py-8">
+  <h1 class="text-2xl font-semibold text-primary">Wetter – Hooksiel (Beispiel)</h1>
+  <p class="mt-2 text-sm text-ink/70">Quelle: OpenWeather One Call. Tägliche Aktualisierung per GitHub Action.</p>
+
+  <section class="mt-6 grid lg:grid-cols-3 gap-6 items-start">
+    <div class="bg-white border border-border rounded-2xl p-6 shadow-soft">
+      <header class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-primary">Aktuell</h2>
+        <span id="wx-updated" class="text-xs text-ink/60">—</span>
+      </header>
+      <div id="wx-now" class="mt-4 text-sm text-ink/80">Lade Daten …</div>
+    </div>
+
+    <div class="bg-white border border-border rounded-2xl p-6 shadow-soft">
+      <h3 class="text-base font-semibold text-primary">Heute</h3>
+      <div id="wx-today" class="mt-4 grid grid-cols-2 gap-3 text-sm"></div>
+    </div>
+
+    <div class="bg-white border border-border rounded-2xl p-6 shadow-soft">
+      <h3 class="text-base font-semibold text-primary">Standort</h3>
+      <div id="wx-meta" class="mt-3 text-sm text-ink/70">—</div>
+    </div>
+  </section>
+
+  <section class="mt-6 bg-white border border-border rounded-2xl p-6 shadow-soft">
+    <h3 class="text-base font-semibold text-primary">Nächste 24 Stunden</h3>
+    <div id="wx-hourly" class="mt-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 text-sm"></div>
+  </section>
+
+  <section class="mt-6 bg-white border border-border rounded-2xl p-6 shadow-soft">
+    <h3 class="text-base font-semibold text-primary">7-Tage-Vorhersage</h3>
+    <div id="wx-daily" class="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 text-sm"></div>
+  </section>
+</main>
+
+<footer class="border-t border-border mt-10">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 py-8 grid gap-6 md:grid-cols-3 items-start">
+    <div class="text-sm text-ink/80">
+      <p class="font-semibold text-primary">Hinweis</p>
+      <p class="mt-1">Diese Seite lädt <code>docs/data/weather.json</code> aus diesem Repo.</p>
+    </div>
+    <nav class="text-sm text-ink/80">
+      <p class="font-semibold text-primary">Rechtliches</p>
+      <ul class="mt-2 space-y-1">
+        <li><a class="hover:text-primary underline underline-offset-2" href="impressum.html">Impressum</a></li>
+        <li><a class="hover:text-primary underline underline-offset-2" href="datenschutz.html">Datenschutz</a></li>
+      </ul>
+    </nav>
+    <div class="text-sm text-ink/70 md:text-right">
+      <p>© <span id="year"></span> Wangerland Touristik</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const TZ = 'Europe/Berlin';
+const iconUrl = (code) => `https://openweathermap.org/img/wn/${code}@2x.png`;
+const tC = (x)=> Math.round(x);
+function fmtTime(ts){ return new Date(ts*1000).toLocaleTimeString('de-DE',{timeZone:TZ,hour:'2-digit',minute:'2-digit'}); }
+function fmtDate(ts){ return new Date(ts*1000).toLocaleDateString('de-DE',{timeZone:TZ,weekday:'short',day:'2-digit',month:'2-digit'}); }
+
+async function renderWeather(){
+  try{
+    const res = await fetch('./data/weather.json',{cache:'no-cache'});
+    if(!res.ok) throw new Error('weather.json nicht gefunden');
+    const d = await res.json();
+
+    document.getElementById('wx-updated').textContent =
+      'Aktualisiert: ' + new Date(d.fetched_at).toLocaleString('de-DE',{timeZone:TZ});
+
+    const c = d.current||{};
+    const desc = c.weather?.[0]?.description ?? '';
+    const icon = c.weather?.[0]?.icon ?? '01d';
+    document.getElementById('wx-now').innerHTML = `
+      <div class="flex items-center gap-3">
+        <img alt="" width="60" height="60" src="${iconUrl(icon)}"/>
+        <div>
+          <div class="text-2xl font-semibold">${tC(c.temp)}°C</div>
+          <div class="text-ink/70 capitalize">${desc}</div>
+          <div class="mt-2 text-ink/70">Gefühlt ${tC(c.feels_like)}°C · Wind ${Math.round((c.wind_speed??0)*10)/10} m/s (${c.wind_deg??'–'}°) · Feuchte ${c.humidity??'–'}%</div>
+        </div>
+      </div>`;
+
+    document.getElementById('wx-meta').textContent = `lat ${d.lat}, lon ${d.lon} · Einheit: metrisch · Sprache: de`;
+
+    const today = d.daily?.[0];
+    if(today){
+      document.getElementById('wx-today').innerHTML = `
+        <div class="rounded-xl border border-border p-3"><div class="text-xs text-ink/60">Min</div><div class="text-lg font-semibold">${tC(today.temp.min)}°C</div></div>
+        <div class="rounded-xl border border-border p-3"><div class="text-xs text-ink/60">Max</div><div class="text-lg font-semibold">${tC(today.temp.max)}°C</div></div>
+        <div class="rounded-xl border border-border p-3"><div class="text-xs text-ink/60">Sonnenaufgang</div><div class="text-lg font-semibold">${fmtTime(today.sunrise)}</div></div>
+        <div class="rounded-xl border border-border p-3"><div class="text-xs text-ink/60">Sonnenuntergang</div><div class="text-lg font-semibold">${fmtTime(today.sunset)}</div></div>`;
+    }
+
+    const hourly = (d.hourly||[]).slice(0,24).map(h=>`
+      <div class="rounded-xl border border-border p-3">
+        <div class="flex items-center gap-2">
+          <img alt="" width="36" height="36" src="${iconUrl(h.weather?.[0]?.icon??'01d')}"/>
+          <div class="font-semibold">${tC(h.temp)}°C</div>
+        </div>
+        <div class="text-xs text-ink/60">${fmtTime(h.dt)}</div>
+        <div class="text-xs text-ink/60">Wind ${Math.round((h.wind_speed??0)*10)/10} m/s</div>
+      </div>`).join('');
+    document.getElementById('wx-hourly').innerHTML = hourly;
+
+    const daily = (d.daily||[]).slice(0,7).map(dd=>`
+      <div class="rounded-xl border border-border p-3">
+        <div class="flex items-center gap-2">
+          <img alt="" width="40" height="40" src="${iconUrl(dd.weather?.[0]?.icon??'01d')}"/>
+          <div class="font-semibold">${fmtDate(dd.dt)}</div>
+        </div>
+        <div class="mt-1 text-ink/70 capitalize">${dd.weather?.[0]?.description??''}</div>
+        <div class="mt-1">Min ${tC(dd.temp.min)}°C · Max ${tC(dd.temp.max)}°C</div>
+      </div>`).join('');
+    document.getElementById('wx-daily').innerHTML = daily;
+  }catch(e){
+    console.error(e);
+    document.getElementById('wx-now').textContent = 'Wetterdaten nicht verfügbar.';
+  }
+}
+renderWeather();
+</script>
+</body>
+</html>

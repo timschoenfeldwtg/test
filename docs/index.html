@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wangerland Widgets</title>
+  <meta name="description" content="Startseite mit Widgets für Wetter und Gezeiten." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: {
+      colors:{ primary:'#002341', accent:'#007996', ink:'#111111', border:'#e6e6e6', bg:'#ffffff', hilite:'#ffe500' },
+      boxShadow:{ soft:'0 10px 30px rgba(0,0,0,.06)' }, borderRadius:{ '2xl':'1rem' },
+      fontFamily:{ sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif'] }
+    } } }
+  </script>
+  <style>:root{color-scheme:light}</style>
+</head>
+<body class="bg-bg text-ink font-sans">
+  <header class="border-b border-border bg-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-accent/15 flex items-center justify-center font-bold text-accent">W</div>
+        <div class="leading-tight">
+          <div class="text-primary font-semibold">Wangerland Widgets</div>
+          <div class="text-xs text-ink/60">Demo-Seite</div>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-5 text-sm">
+        <a class="hover:text-primary" href="weather.html">Wetter</a>
+        <a class="hover:text-primary" href="gezeiten.html">Gezeiten</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-semibold text-primary">Widgets für <span class="text-accent">Wetter</span> & <span class="text-accent">Gezeiten</span></h1>
+          <p class="mt-3 text-ink/70">Statische GitHub Pages, Daten-Updates via Actions. Sicher ohne API-Key im Frontend.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="weather.html" class="inline-flex items-center gap-2 rounded-2xl bg-primary px-4 py-2 text-white shadow-soft">Wetter ansehen</a>
+            <a href="gezeiten.html" class="inline-flex items-center gap-2 rounded-2xl border border-primary px-4 py-2 text-primary">Gezeiten ansehen</a>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl border border-border p-6 shadow-soft">
+          <dl class="grid grid-cols-2 gap-4 text-sm">
+            <div class="rounded-xl border border-border p-4">
+              <dt class="text-ink/60">Technik</dt>
+              <dd class="font-semibold">GitHub Actions</dd>
+            </div>
+            <div class="rounded-xl border border-border p-4">
+              <dt class="text-ink/60">Hosting</dt>
+              <dd class="font-semibold">GitHub Pages</dd>
+            </div>
+            <div class="rounded-xl border border-border p-4">
+              <dt class="text-ink/60">Wetter</dt>
+              <dd class="font-semibold">OpenWeather</dd>
+            </div>
+            <div class="rounded-xl border border-border p-4">
+              <dt class="text-ink/60">Gezeiten</dt>
+              <dd class="font-semibold">WorldTides</dd>
+            </div>
+          </dl>
+          <p class="mt-4 text-xs text-ink/60">Hinweis: Nicht für nautische Zwecke.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 pb-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="weather.html" class="group bg-white border border-border rounded-2xl p-6 shadow-soft hover:shadow-md transition-shadow">
+        <h3 class="text-lg font-semibold text-primary">Wetter</h3>
+        <p class="mt-2 text-sm text-ink/70">Aktuell, 24 Stunden und 7-Tage-Vorhersage mit Icons.</p>
+        <div class="mt-4 text-sm text-accent group-hover:underline">Öffnen →</div>
+      </a>
+
+      <a href="gezeiten.html" class="group bg-white border border-border rounded-2xl p-6 shadow-soft hover:shadow-md transition-shadow">
+        <h3 class="text-lg font-semibold text-primary">Gezeiten</h3>
+        <p class="mt-2 text-sm text-ink/70">Hoch-/Niedrigwasser, gruppiert nach Tagen, kompakt visualisiert.</p>
+        <div class="mt-4 text-sm text-accent group-hover:underline">Öffnen →</div>
+      </a>
+
+      <div class="bg-white border border-border rounded-2xl p-6 shadow-soft">
+        <h3 class="text-lg font-semibold text-primary">Setup</h3>
+        <ol class="mt-2 text-sm text-ink/80 list-decimal pl-5 space-y-1">
+          <li>Secrets setzen (OpenWeather, WorldTides).</li>
+          <li>Koordinaten in Workflows anpassen.</li>
+          <li>Actions starten → JSON wird geschrieben.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-border">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 py-8 flex items-center justify-between">
+      <p class="text-sm text-ink/60">© <span id="year"></span> Wangerland</p>
+      <div class="text-sm text-ink/60">Demo · Tailwind · GitHub Pages</div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
