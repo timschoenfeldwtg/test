@@ -5,6 +5,7 @@ KEY = os.environ["OPENWEATHER_API_KEY"]
 LAT = os.environ.get("WX_LAT", "53.64")
 LON = os.environ.get("WX_LON", "8.01")
 
+# One Call **2.5** statt 3.0 (free plan)
 url = "https://api.openweathermap.org/data/2.5/onecall?" + urllib.parse.urlencode({
     "lat": LAT, "lon": LON, "units": "metric", "lang": "de", "appid": KEY
 })
@@ -14,9 +15,16 @@ out_dir.mkdir(parents=True, exist_ok=True)
 dst = out_dir / "weather.json"
 raw_dst = out_dir / "weather_raw.json"
 
-with urllib.request.urlopen(url, timeout=30) as r:
-    raw = json.load(r)
+try:
+    with urllib.request.urlopen(url, timeout=30) as r:
+        raw = json.load(r)
+except urllib.error.HTTPError as e:
+    # Fehlerkörper mitschreiben für Debug
+    body = e.read().decode("utf-8", errors="ignore")
+    (out_dir / "weather_error.txt").write_text(f"{e}\n\n{body}")
+    raise
 
+# Raw speichern (Debug)
 raw_dst.write_text(json.dumps(raw, ensure_ascii=False, indent=2))
 
 result = {
