@@ -1,3 +1,142 @@
 {
-  "info": "placeholder"
+  "fetched_at": "2025-11-07T18:01:59Z",
+  "lat": 53.64,
+  "lon": 8.01,
+  "extremes": [
+    {
+      "dt": 1762517040,
+      "type": "High",
+      "height": 1.931
+    },
+    {
+      "dt": 1762540740,
+      "type": "Low",
+      "height": -1.943
+    },
+    {
+      "dt": 1762561320,
+      "type": "High",
+      "height": 1.832
+    },
+    {
+      "dt": 1762585320,
+      "type": "Low",
+      "height": -2.032
+    },
+    {
+      "dt": 1762606260,
+      "type": "High",
+      "height": 1.815
+    },
+    {
+      "dt": 1762629840,
+      "type": "Low",
+      "height": -1.851
+    },
+    {
+      "dt": 1762650360,
+      "type": "High",
+      "height": 1.806
+    },
+    {
+      "dt": 1762674540,
+      "type": "Low",
+      "height": -1.986
+    },
+    {
+      "dt": 1762695600,
+      "type": "High",
+      "height": 1.664
+    },
+    {
+      "dt": 1762718940,
+      "type": "Low",
+      "height": -1.727
+    },
+    {
+      "dt": 1762739580,
+      "type": "High",
+      "height": 1.757
+    },
+    {
+      "dt": 1762763820,
+      "type": "Low",
+      "height": -1.883
+    },
+    {
+      "dt": 1762785120,
+      "type": "High",
+      "height": 1.496
+    },
+    {
+      "dt": 1762808040,
+      "type": "Low",
+      "height": -1.577
+    },
+    {
+      "dt": 1762829100,
+      "type": "High",
+      "height": 1.682
+    },
+    {
+      "dt": 1762853220,
+      "type": "Low",
+      "height": -1.728
+    },
+    {
+      "dt": 1762874940,
+      "type": "High",
+      "height": 1.327
+    },
+    {
+      "dt": 1762897380,
+      "type": "Low",
+      "height": -1.407
+    },
+    {
+      "dt": 1762918980,
+      "type": "High",
+      "height": 1.588
+    },
+    {
+      "dt": 1762942920,
+      "type": "Low",
+      "height": -1.55
+    },
+    {
+      "dt": 1762965060,
+      "type": "High",
+      "height": 1.187
+    },
+    {
+      "dt": 1762987140,
+      "type": "Low",
+      "height": -1.243
+    },
+    {
+      "dt": 1763009280,
+      "type": "High",
+      "height": 1.505
+    },
+    {
+      "dt": 1763033040,
+      "type": "Low",
+      "height": -1.402
+    },
+    {
+      "dt": 1763055420,
+      "type": "High",
+      "height": 1.121
+    },
+    {
+      "dt": 1763077380,
+      "type": "Low",
+      "height": -1.138
+    },
+    {
+      "dt": 1763099760,
+      "type": "High",
+      "height": 1.476
+    }
+  ]
 }
