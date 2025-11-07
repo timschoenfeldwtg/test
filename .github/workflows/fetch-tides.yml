@@ -1,0 +1,24 @@
+name: Fetch tides daily
+on:
+  schedule: [ { cron: "0 4 * * *" } ]
+  workflow_dispatch: {}
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.x" }
+      - name: Fetch tides JSON
+        env:
+          WORLDTIDES_KEY: ${{ secrets.WORLDTIDES_KEY }}
+          TIDES_LAT: "53.64"
+          TIDES_LON: "8.01"
+          TIDES_DAYS: "7"
+        run: |
+          python scripts/fetch_tides.py
+      - name: Commit & push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): update tides.json"
+          file_pattern: docs/data/tides.json
