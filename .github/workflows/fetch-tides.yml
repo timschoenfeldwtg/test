@@ -1,4 +1,6 @@
 name: Fetch tides daily
+permissions:
+  contents: write
 on:
   schedule: [ { cron: "0 4 * * *" } ]
   workflow_dispatch: {}
