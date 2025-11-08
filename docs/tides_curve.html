@@ -1,19 +1,98 @@
 <!doctype html>
-<html lang="de"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Gezeiten – Verlaufskurve</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.tailwindcss.com"></script>
-<script>tailwind.config={theme:{extend:{colors:{primary:'#002341',accent:'#007996',ink:'#111',border:'#e6e6e6',bg:'#fff'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.06)'},borderRadius:{'2xl':'1rem'},fontFamily:{sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif']}}}}</script>
-</head><body class="bg-bg text-ink font-sans">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: { primary:'#002341', accent:'#007996', ink:'#111', border:'#e6e6e6', bg:'#fff' },
+      boxShadow: { soft:'0 10px 30px rgba(0,0,0,.06)' },
+      borderRadius: { '2xl':'1rem' },
+      fontFamily: { sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif'] }
+    }
+  }
+}
+</script>
+</head>
+
+<body class="bg-bg text-ink font-sans">
 <main class="mx-auto max-w-5xl px-4 sm:px-6 py-8">
-<header class="flex items-center justify-between"><h1 class="text-2xl font-semibold text-primary">Gezeiten – Verlaufskurve</h1><a href="index.html" class="text-sm text-accent underline underline-offset-4">Zur Übersicht</a></header>
+<header class="flex items-center justify-between">
+  <h1 class="text-2xl font-semibold text-primary">Gezeiten – Verlaufskurve</h1>
+  <a href="index.html" class="text-sm text-accent underline underline-offset-4">Zur Übersicht</a>
+</header>
+
 <div id="curve" class="mt-6"></div>
 </main>
-<script type="module">
-  import { loadTides, sampleTideCurve, renderCurveSVG } from '../assets/js/tides.js';
-  const data = await loadTides('../data/tides.json');
-  const pts = sampleTideCurve(data.extremes, 10);
-  renderCurveSVG(document.getElementById('curve'), pts, { width: 900, height: 240 });
-</script></body></html>
+
+<script>
+const jsonURL = `data/tides.json?v=${Date.now()}`;
+const TZ = 'Europe/Berlin';
+
+// format + curve helpers
+const fmt = ts => new Date(ts*1000).toLocaleString('de-DE',{ timeZone:TZ, hour:'2-digit', minute:'2-digit' });
+
+function sampleCurve(extremes, stepMin=10){
+  const pts=[];
+  if(!extremes||extremes.length<2) return pts;
+  for(let i=0;i<extremes.length-1;i++){
+    const a=extremes[i], b=extremes[i+1];
+    if(a.height==null||b.height==null) continue;
+    const t0=a.dt, t1=b.dt, h0=a.height, h1=b.height;
+    const steps=Math.max(2,Math.ceil((t1-t0)/(stepMin*60)));
+    for(let s=0;s<=steps;s++){
+      const u=s/steps, uu=(1-Math.cos(Math.PI*u))/2;
+      pts.push({ t:Math.round(t0+(t1-t0)*u), h:h0+(h1-h0)*uu });
+    }
+  }
+  return pts;
+}
+
+function renderCurveSVG(target, points, w=900, h=220){
+  if(!target) return;
+  if(!points.length){ target.innerHTML='<div class="text-sm text-gray-500">Keine Daten</div>'; return; }
+
+  const padL=40,padR=10,padT=10,padB=24;
+  const xs=points.map(p=>p.t), ys=points.map(p=>p.h);
+  const minX=Math.min(...xs),maxX=Math.max(...xs);
+  const minY=Math.min(...ys),maxY=Math.max(...ys);
+  const sx=x=>padL+((x-minX)/(maxX-minX||1))*(w-padL-padR);
+  const sy=y=>h-padB-((y-minY)/(maxY-minY||1))*(h-padT-padB);
+
+  let d=''; points.forEach((p,i)=>{ const X=sx(p.t),Y=sy(p.h); d+=(i?' L ':'M ')+X+' '+Y; });
+
+  const ticks=[minY,(minY+maxY)/2,maxY].map(v=>Number(v).toFixed(2));
+
+  target.innerHTML = `
+  <svg viewBox="0 0 ${w} ${h}" class="w-full h-auto">
+    <rect x="0" y="0" width="${w}" height="${h}" fill="white"/>
+    ${ticks.map(v=>{const yy=sy(Number(v));return`
+      <line x1="${padL}" y1="${yy}" x2="${w-padR}" y2="${yy}" stroke="#e6e6e6" stroke-dasharray="3 3"/>
+      <text x="6" y="${yy+4}" font-size="10" fill="#6b7280">${v} m</text>
+    `;}).join('')}
+    <path d="${d}" fill="none" stroke="#007996" stroke-width="2"/>
+  </svg>`;
+}
+
+// Load & render
+fetch(jsonURL)
+ .then(r=>r.json())
+ .then(data=>{
+    const ex=(data.extremes||[]).sort((a,b)=>a.dt-b.dt);
+    const pts = sampleCurve(ex,10);
+    renderCurveSVG(document.getElementById('curve'), pts);
+ })
+ .catch(()=>document.getElementById('curve').innerHTML='<div class="text-sm bg-yellow-100 text-yellow-900 p-3 rounded">⚠️ tides.json nicht gefunden</div>');
+</script>
+
+</body>
+</html>
