@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Gezeiten – Slider</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#002341',accent:'#007996',ink:'#111',border:'#e6e6e6',bg:'#fff'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.06)'},borderRadius:{'2xl':'1rem'},fontFamily:{sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif']}}}}</script>
+</head><body class="bg-bg text-ink font-sans">
+<main class="mx-auto max-w-5xl px-4 sm:px-6 py-8">
+<header class="flex items-center justify-between"><h1 class="text-2xl font-semibold text-primary">Gezeiten – Slider</h1><a href="index.html" class="text-sm text-accent underline underline-offset-4">Zur Übersicht</a></header>
+<div class="mt-6">
+  <div id="slider" class="overflow-hidden"><div id="slide-track" class="flex gap-4 transition-transform"></div></div>
+  <div class="mt-3 flex gap-2"><button id="prev" class="px-3 py-1 border border-border rounded-lg">◀</button><button id="next" class="px-3 py-1 border border-border rounded-lg">▶</button></div>
+</div>
+</main>
+<script type="module">
+  import { loadTides, groupByLocalDay, fmtLocal } from '../assets/js/tides.js';
+  const data = await loadTides('../data/tides.json');
+  const map = groupByLocalDay(data.extremes); const days = [...map.entries()].slice(0,7);
+  const track = document.getElementById('slide-track');
+  for (const [key, items] of days) {
+    const rows = items.sort((a,b)=>a.dt-b.dt).map(e=>`
+      <div class="rounded-xl border border-border p-3">
+        <div class="text-xs text-ink/60">${e.type==='High'?'Hochwasser':'Niedrigwasser'}</div>
+        <div class="text-lg font-semibold">${fmtLocal(e.dt)}</div>
+        <div class="text-xs text-ink/60">${e.height!=null? (e.height.toFixed(2)+' m') : ''}</div>
+      </div>`).join('');
+    const card = document.createElement('div');
+    card.className = 'min-w-[280px] sm:min-w-[360px] rounded-2xl border border-border p-4';
+    card.innerHTML = `<div class="text-sm font-semibold text-primary">${key}</div><div class="mt-3 grid grid-cols-2 gap-3">${rows}</div>`;
+    track.appendChild(card);
+  }
+  let idx = 0; function updateSlider(){ const cards=track.children.length; idx = Math.max(0, Math.min(idx, cards-1)); const cardW = track.children[0]?.getBoundingClientRect().width || 320; track.style.transform = `translateX(${-idx*(cardW+16)}px)`; }
+  document.getElementById('prev').onclick = ()=>{ idx--; updateSlider(); }; document.getElementById('next').onclick = ()=>{ idx++; updateSlider(); };
+  updateSlider(); window.addEventListener('resize', updateSlider);
+</script></body></html>

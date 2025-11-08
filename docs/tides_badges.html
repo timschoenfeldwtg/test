@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Gezeiten – Badges & Timer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#002341',accent:'#007996',ink:'#111',border:'#e6e6e6',bg:'#fff'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.06)'},borderRadius:{'2xl':'1rem'},fontFamily:{sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif']}}}}</script>
+</head><body class="bg-bg text-ink font-sans">
+<main class="mx-auto max-w-5xl px-4 sm:px-6 py-8">
+<header class="flex items-center justify-between"><h1 class="text-2xl font-semibold text-primary">Gezeiten – Badges & Timer</h1><a href="index.html" class="text-sm text-accent underline underline-offset-4">Zur Übersicht</a></header>
+<div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
+  <span id="badge-next-high" class="inline-flex items-center rounded-full bg-accent/10 text-accent px-3 py-1">Nächstes Hochwasser: —</span>
+  <span id="badge-next-low" class="inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1">Nächstes Niedrigwasser: —</span>
+  <span id="badge-next" class="inline-flex items-center rounded-full bg-ink/10 text-ink px-3 py-1">Nächste Tide: —</span>
+  <span id="timer" class="inline-flex items-center rounded-full bg-ink/5 text-ink px-3 py-1">Countdown: —</span>
+</div>
+</main>
+<script type="module">
+  import { loadTides, nextEvents, fmtLocal, humanCountdown } from '../assets/js/tides.js';
+  const data = await loadTides('../data/tides.json');
+  const { nextHigh, nextLow, next } = nextEvents(data.extremes);
+  if (nextHigh) document.getElementById('badge-next-high').textContent = 'Nächstes Hochwasser: ' + fmtLocal(nextHigh.dt);
+  if (nextLow)  document.getElementById('badge-next-low').textContent  = 'Nächstes Niedrigwasser: ' + fmtLocal(nextLow.dt);
+  if (next)     document.getElementById('badge-next').textContent      = 'Nächste Tide: ' + (next.type==='High'?'Hoch':'Niedrig') + ' · ' + fmtLocal(next.dt);
+  function tick(){ if (next) document.getElementById('timer').textContent = 'Countdown: ' + humanCountdown(next.dt); }
+  tick(); setInterval(tick, 1000);
+</script></body></html>

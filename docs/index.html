@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Gezeiten Demo – Bausteine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#002341',accent:'#007996',ink:'#111',border:'#e6e6e6',bg:'#fff'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.06)'},borderRadius:{'2xl':'1rem'},fontFamily:{sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif']}}}}</script>
+</head><body class="bg-bg text-ink font-sans">
+<main class="mx-auto max-w-5xl px-4 sm:px-6 py-10">
+  <h1 class="text-3xl font-semibold text-primary">Gezeiten – Demo-Bausteine</h1>
+  <p class="mt-2 text-ink/70">Nutze diese Seiten, um Layout-Varianten zu testen.</p>
+  <ul class="mt-6 grid sm:grid-cols-2 gap-4">
+    <li><a class="block p-5 rounded-2xl border border-border hover:shadow-soft" href="tides_all.html">Alle Komponenten auf einer Seite</a></li>
+    <li><a class="block p-5 rounded-2xl border border-border hover:shadow-soft" href="tides_slider.html">Slider (7 Tage)</a></li>
+    <li><a class="block p-5 rounded-2xl border border-border hover:shadow-soft" href="tides_curve.html">Gezeitenverlauf (Kurve)</a></li>
+    <li><a class="block p-5 rounded-2xl border border-border hover:shadow-soft" href="tides_badges.html">Badges & Timer</a></li>
+  </ul>
+  <p class="mt-8 text-sm text-ink/60">Datenquelle: <code>docs/data/tides.json</code>. Zeiten in Europa/Berlin.</p>
+</main></body></html>

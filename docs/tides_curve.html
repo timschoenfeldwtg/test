@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Gezeiten – Verlaufskurve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#002341',accent:'#007996',ink:'#111',border:'#e6e6e6',bg:'#fff'},boxShadow:{soft:'0 10px 30px rgba(0,0,0,.06)'},borderRadius:{'2xl':'1rem'},fontFamily:{sans:['Inter','system-ui','-apple-system','Segoe UI','Arial','sans-serif']}}}}</script>
+</head><body class="bg-bg text-ink font-sans">
+<main class="mx-auto max-w-5xl px-4 sm:px-6 py-8">
+<header class="flex items-center justify-between"><h1 class="text-2xl font-semibold text-primary">Gezeiten – Verlaufskurve</h1><a href="index.html" class="text-sm text-accent underline underline-offset-4">Zur Übersicht</a></header>
+<div id="curve" class="mt-6"></div>
+</main>
+<script type="module">
+  import { loadTides, sampleTideCurve, renderCurveSVG } from '../assets/js/tides.js';
+  const data = await loadTides('../data/tides.json');
+  const pts = sampleTideCurve(data.extremes, 10);
+  renderCurveSVG(document.getElementById('curve'), pts, { width: 900, height: 240 });
+</script></body></html>
