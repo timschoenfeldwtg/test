@@ -1,26 +1,26 @@
 {
-  "fetched_at": "2025-12-18T04:32:33Z",
+  "fetched_at": "2025-12-19T04:32:40Z",
   "lat": 53.64,
   "lon": 8.01,
   "current": {
-    "temp": 6.3,
-    "feels_like": 1.3,
-    "humidity": 87,
-    "wind_speed": 7.02,
-    "wind_deg": 184,
+    "temp": 11.4,
+    "feels_like": 7.4,
+    "humidity": 77,
+    "wind_speed": 6.35,
+    "wind_deg": 206,
     "weather": [
       {
         "icon": "04d",
         "description": "bedeckt"
       }
     ],
-    "dt": 1766032353
+    "dt": 1766118760
   },
   "hourly": [
     {
-      "dt": 1766016000,
-      "temp": 7.3,
-      "wind_speed": 4.9,
+      "dt": 1766102400,
+      "temp": 9.4,
+      "wind_speed": 7.61,
       "weather": [
         {
           "icon": "04d",
@@ -29,9 +29,9 @@
       ]
     },
     {
-      "dt": 1766019600,
-      "temp": 7.5,
-      "wind_speed": 4.85,
+      "dt": 1766106000,
+      "temp": 10.5,
+      "wind_speed": 7.7,
       "weather": [
         {
           "icon": "04d",
@@ -40,9 +40,9 @@
       ]
     },
     {
-      "dt": 1766023200,
-      "temp": 7.3,
-      "wind_speed": 5.39,
+      "dt": 1766109600,
+      "temp": 10.8,
+      "wind_speed": 7.91,
       "weather": [
         {
           "icon": "04d",
@@ -51,9 +51,9 @@
       ]
     },
     {
-      "dt": 1766026800,
-      "temp": 7.1,
-      "wind_speed": 6.84,
+      "dt": 1766113200,
+      "temp": 11.3,
+      "wind_speed": 8.18,
       "weather": [
         {
           "icon": "04d",
@@ -62,86 +62,9 @@
       ]
     },
     {
-      "dt": 1766030400,
-      "temp": 6.7,
-      "wind_speed": 6.22,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766034000,
-      "temp": 6.3,
-      "wind_speed": 6.7,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766037600,
-      "temp": 6.4,
-      "wind_speed": 7.27,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766041200,
-      "temp": 6.3,
-      "wind_speed": 8.32,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766044800,
-      "temp": 6.5,
-      "wind_speed": 7.09,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766048400,
-      "temp": 6.8,
-      "wind_speed": 7.77,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766052000,
-      "temp": 7.3,
-      "wind_speed": 7.37,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766055600,
-      "temp": 7.8,
-      "wind_speed": 6.54,
+      "dt": 1766116800,
+      "temp": 11.5,
+      "wind_speed": 6.77,
       "weather": [
         {
           "icon": "10d",
@@ -150,19 +73,19 @@
       ]
     },
     {
-      "dt": 1766059200,
-      "temp": 8.4,
-      "wind_speed": 6.45,
+      "dt": 1766120400,
+      "temp": 11.4,
+      "wind_speed": 6.44,
       "weather": [
         {
-          "icon": "10d",
-          "description": "Regen leicht"
+          "icon": "04d",
+          "description": "bedeckt"
         }
       ]
     },
     {
-      "dt": 1766062800,
-      "temp": 8.7,
+      "dt": 1766124000,
+      "temp": 11.3,
       "wind_speed": 6.26,
       "weather": [
         {
@@ -172,31 +95,9 @@
       ]
     },
     {
-      "dt": 1766066400,
-      "temp": 8.8,
-      "wind_speed": 5.74,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766070000,
-      "temp": 8.9,
-      "wind_speed": 5.33,
-      "weather": [
-        {
-          "icon": "04d",
-          "description": "bedeckt"
-        }
-      ]
-    },
-    {
-      "dt": 1766073600,
-      "temp": 8.9,
-      "wind_speed": 4.8,
+      "dt": 1766127600,
+      "temp": 10.8,
+      "wind_speed": 5.28,
       "weather": [
         {
           "icon": "10d",
@@ -205,9 +106,53 @@
       ]
     },
     {
-      "dt": 1766077200,
-      "temp": 8.9,
-      "wind_speed": 5.46,
+      "dt": 1766131200,
+      "temp": 10.6,
+      "wind_speed": 5.11,
+      "weather": [
+        {
+          "icon": "10d",
+          "description": "Regen leicht"
+        }
+      ]
+    },
+    {
+      "dt": 1766134800,
+      "temp": 10.5,
+      "wind_speed": 4.83,
+      "weather": [
+        {
+          "icon": "10d",
+          "description": "Regen leicht"
+        }
+      ]
+    },
+    {
+      "dt": 1766138400,
+      "temp": 10.6,
+      "wind_speed": 4.7,
+      "weather": [
+        {
+          "icon": "10d",
+          "description": "Regen leicht"
+        }
+      ]
+    },
+    {
+      "dt": 1766142000,
+      "temp": 10.8,
+      "wind_speed": 5.08,
+      "weather": [
+        {
+          "icon": "10d",
+          "description": "Regen leicht"
+        }
+      ]
+    },
+    {
+      "dt": 1766145600,
+      "temp": 11.1,
+      "wind_speed": 5.8,
       "weather": [
         {
           "icon": "04d",
@@ -216,9 +161,9 @@
       ]
     },
     {
-      "dt": 1766080800,
-      "temp": 8.8,
-      "wind_speed": 5.98,
+      "dt": 1766149200,
+      "temp": 11.0,
+      "wind_speed": 5.68,
       "weather": [
         {
           "icon": "04d",
@@ -227,9 +172,9 @@
       ]
     },
     {
-      "dt": 1766084400,
-      "temp": 9.0,
-      "wind_speed": 7.11,
+      "dt": 1766152800,
+      "temp": 11.0,
+      "wind_speed": 4.92,
       "weather": [
         {
           "icon": "04d",
@@ -238,9 +183,9 @@
       ]
     },
     {
-      "dt": 1766088000,
-      "temp": 9.1,
-      "wind_speed": 7.82,
+      "dt": 1766156400,
+      "temp": 10.7,
+      "wind_speed": 5.63,
       "weather": [
         {
           "icon": "04d",
@@ -249,9 +194,9 @@
       ]
     },
     {
-      "dt": 1766091600,
-      "temp": 9.3,
-      "wind_speed": 7.6,
+      "dt": 1766160000,
+      "temp": 9.6,
+      "wind_speed": 4.03,
       "weather": [
         {
           "icon": "04d",
@@ -260,9 +205,9 @@
       ]
     },
     {
-      "dt": 1766095200,
-      "temp": 9.3,
-      "wind_speed": 6.9,
+      "dt": 1766163600,
+      "temp": 8.5,
+      "wind_speed": 3.92,
       "weather": [
         {
           "icon": "04d",
@@ -271,9 +216,64 @@
       ]
     },
     {
-      "dt": 1766098800,
-      "temp": 9.5,
-      "wind_speed": 7.2,
+      "dt": 1766167200,
+      "temp": 7.6,
+      "wind_speed": 4.38,
+      "weather": [
+        {
+          "icon": "04d",
+          "description": "bedeckt"
+        }
+      ]
+    },
+    {
+      "dt": 1766170800,
+      "temp": 7.2,
+      "wind_speed": 5.03,
+      "weather": [
+        {
+          "icon": "04d",
+          "description": "bedeckt"
+        }
+      ]
+    },
+    {
+      "dt": 1766174400,
+      "temp": 7.0,
+      "wind_speed": 5.23,
+      "weather": [
+        {
+          "icon": "04d",
+          "description": "bedeckt"
+        }
+      ]
+    },
+    {
+      "dt": 1766178000,
+      "temp": 6.7,
+      "wind_speed": 5.3,
+      "weather": [
+        {
+          "icon": "03d",
+          "description": "wolkig"
+        }
+      ]
+    },
+    {
+      "dt": 1766181600,
+      "temp": 6.2,
+      "wind_speed": 5.23,
+      "weather": [
+        {
+          "icon": "03d",
+          "description": "wolkig"
+        }
+      ]
+    },
+    {
+      "dt": 1766185200,
+      "temp": 5.8,
+      "wind_speed": 5.02,
       "weather": [
         {
           "icon": "04d",
@@ -284,27 +284,12 @@
   ],
   "daily": [
     {
-      "dt": 1766059200,
-      "sunrise": 1766047200,
-      "sunset": 1766074080,
-      "temp": {
-        "min": 6.3,
-        "max": 9.5
-      },
-      "weather": [
-        {
-          "icon": "10d",
-          "description": "Regen leicht"
-        }
-      ]
-    },
-    {
       "dt": 1766145600,
       "sunrise": 1766133660,
       "sunset": 1766160480,
       "temp": {
-        "min": 6.6,
-        "max": 11.0
+        "min": 5.8,
+        "max": 11.5
       },
       "weather": [
         {
@@ -318,13 +303,13 @@
       "sunrise": 1766220120,
       "sunset": 1766246880,
       "temp": {
-        "min": 4.9,
-        "max": 6.5
+        "min": 4.6,
+        "max": 5.9
       },
       "weather": [
         {
-          "icon": "10d",
-          "description": "Regen leicht"
+          "icon": "50d",
+          "description": "Nebel"
         }
       ]
     },
@@ -334,7 +319,7 @@
       "sunset": 1766333340,
       "temp": {
         "min": 6.0,
-        "max": 7.1
+        "max": 7.5
       },
       "weather": [
         {
@@ -348,8 +333,8 @@
       "sunrise": 1766392980,
       "sunset": 1766419740,
       "temp": {
-        "min": 4.0,
-        "max": 6.7
+        "min": 4.5,
+        "max": 6.8
       },
       "weather": [
         {
@@ -363,8 +348,8 @@
       "sunrise": 1766479380,
       "sunset": 1766506200,
       "temp": {
-        "min": 1.7,
-        "max": 3.9
+        "min": 3.4,
+        "max": 5.2
       },
       "weather": [
         {
@@ -378,13 +363,28 @@
       "sunrise": 1766565840,
       "sunset": 1766592660,
       "temp": {
-        "min": -1.0,
-        "max": 1.6
+        "min": 2.4,
+        "max": 3.6
       },
       "weather": [
         {
-          "icon": "03d",
-          "description": "wolkig"
+          "icon": "10d",
+          "description": "Regen leicht"
+        }
+      ]
+    },
+    {
+      "dt": 1766664000,
+      "sunrise": 1766652240,
+      "sunset": 1766679060,
+      "temp": {
+        "min": 0.7,
+        "max": 2.3
+      },
+      "weather": [
+        {
+          "icon": "04d",
+          "description": "bedeckt"
         }
       ]
     }
